@@ -10,5 +10,5 @@ public class TrustyAnalyticContext : DbContext
     {
     }
 
-    public DbSet<TrustyAnalytic> Analytics { get; set; } = null!;
+    public DbSet<Analytic> Analytics { get; set; } = null!;
 }
