@@ -4,10 +4,16 @@ using TrustyAnalytics.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<TrustyAnalyticContext>(opt =>
-    opt.UseInMemoryDatabase("Analytics"));
+builder.Services.AddDbContext<TrustyAnalyticContext>(options =>
+    options.UseInMemoryDatabase("Analytics"));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddStackExchangeRedisCache(options => {
+options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
+options.InstanceName = "SampleInstance";
+});
 
 var app = builder.Build();
 
