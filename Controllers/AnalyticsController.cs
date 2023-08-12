@@ -93,7 +93,7 @@ namespace API.Controllers
             _context.Analytics.Add(analytic);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAnalytic", new { id = analytic.AnalyticId }, analytic);
+            return CreatedAtAction(nameof(GetAnalytic), new { id = analytic.AnalyticId }, analytic);
         }
 
         // DELETE: api/Analytics/5
