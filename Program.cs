@@ -5,10 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<TrustyAnalyticContext>(options =>
-    options.UseInMemoryDatabase("Analytics"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();   
 
 builder.Services.AddStackExchangeRedisCache(options => {
 options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
