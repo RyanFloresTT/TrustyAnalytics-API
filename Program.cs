@@ -17,15 +17,17 @@ options.InstanceName = "SampleInstance";
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-/*
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
-*/
-
+else if (app.Environment.IsProduction())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 
