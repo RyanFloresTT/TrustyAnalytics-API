@@ -9,6 +9,10 @@ public class TrustyAnalyticContext : DbContext
     : base(options)
     {
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Analytic>().ToTable("Analytic");
+    }
 
     public DbSet<Analytic> Analytics { get; set; } = null!;
 }
