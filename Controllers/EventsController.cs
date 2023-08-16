@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
-using TrustyAnalytics.Models;
 
 namespace API.Controllers
 {
@@ -14,9 +13,9 @@ namespace API.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly EventContext _context;
+        private readonly GameAnalyticContext _context;
 
-        public EventsController(EventContext context)
+        public EventsController(GameAnalyticContext context)
         {
             _context = context;
         }
@@ -88,7 +87,7 @@ namespace API.Controllers
         {
           if (_context.Events == null)
           {
-              return Problem("Entity set 'EventContext.Events'  is null.");
+              return Problem("Entity set 'GameAnalyticContext.Events'  is null.");
           }
             _context.Events.Add(@event);
             await _context.SaveChangesAsync();

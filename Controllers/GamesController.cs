@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
-using TrustyAnalytics.Models;
 
 namespace API.Controllers
 {
@@ -14,9 +13,9 @@ namespace API.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private readonly GameContext _context;
+        private readonly GameAnalyticContext _context;
 
-        public GamesController(GameContext context)
+        public GamesController(GameAnalyticContext context)
         {
             _context = context;
         }
@@ -88,7 +87,7 @@ namespace API.Controllers
         {
           if (_context.Games == null)
           {
-              return Problem("Entity set 'GameContext.Games'  is null.");
+              return Problem("Entity set 'GameAnalyticContext.Games'  is null.");
           }
             _context.Games.Add(game);
             await _context.SaveChangesAsync();

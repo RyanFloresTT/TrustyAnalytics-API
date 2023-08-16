@@ -1,15 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using TrustyAnalytics.Models;
+using API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<AnalyticContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
-builder.Services.AddDbContext<EventContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
-builder.Services.AddDbContext<GameContext>(options =>
+builder.Services.AddDbContext<GameAnalyticContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
 
 builder.Services.AddEndpointsApiExplorer();

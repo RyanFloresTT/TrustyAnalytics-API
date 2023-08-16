@@ -31,14 +31,8 @@ jobs:
       - name: dotnet install ef
         run: dotnet tool install -g dotnet-ef
 
-      - name: dotnet bundle migration (AnalyticContext)
-        run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate/Analytic --context AnalyticContext
-
-      - name: dotnet bundle migration (EventContext)
-        run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrations/event --context EventContext
-
-      - name: dotnet bundle migration (GameContext)
-        run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrations/game --context GameContext
+      - name: dotnet bundle migration
+        run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
