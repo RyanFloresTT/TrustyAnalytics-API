@@ -32,7 +32,7 @@ jobs:
         run: dotnet tool install -g dotnet-ef
 
       - name: dotnet bundle migration (AnalyticContext)
-        run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrations/analytic --context AnalyticContext
+        run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate/Analytic --context AnalyticContext
 
       - name: dotnet bundle migration (EventContext)
         run: dotnet-ef migrations bundle --runtime linux-x64 -p API.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrations/event --context EventContext
