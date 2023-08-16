@@ -9,11 +9,11 @@ using TrustyAnalytics.Models;
 
 #nullable disable
 
-namespace API.Migrations.Game
+namespace API.Migrations.Event
 {
-    [DbContext(typeof(GameContext))]
-    [Migration("20230816194239_AddController")]
-    partial class AddController
+    [DbContext(typeof(EventContext))]
+    [Migration("20230816215328_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,7 @@ namespace API.Migrations.Game
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Event");
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.Game", b =>
@@ -83,7 +83,7 @@ namespace API.Migrations.Game
 
                     b.HasKey("Id");
 
-                    b.ToTable("Game", (string)null);
+                    b.ToTable("Game");
                 });
 
             modelBuilder.Entity("API.Models.Analytic", b =>

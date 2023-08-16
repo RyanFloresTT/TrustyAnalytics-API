@@ -15,15 +15,14 @@ namespace API.Migrations
                 name: "Analytic",
                 columns: table => new
                 {
-                    AnalyticId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EventId = table.Column<int>(type: "int", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Value = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Analytic", x => x.AnalyticId);
+                    table.PrimaryKey("PK_Analytic", x => x.Id);
                 });
         }
 

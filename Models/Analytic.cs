@@ -5,5 +5,5 @@ public class Analytic
     public DateTime Timestamp { get; set; }
     public double Value { get; set; }
 
-    public Event Event;
+    public Event? Event;
 }
