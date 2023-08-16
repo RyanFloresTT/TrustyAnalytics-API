@@ -1,6 +1,11 @@
-﻿namespace API.Models;
+﻿using System.Collections;
+
+namespace API.Models;
+
 public class Game
 {
-    public int GameId { get; set; }
-    public string? GameName { get; set; }
+    public int Id { get; set; }
+    public string? Name { get; set; }
+
+    public ICollection<Event> Events { get; set;}
 }

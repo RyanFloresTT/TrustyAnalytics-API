@@ -55,7 +55,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAnalytic(int id, Analytic analytic)
         {
-            if (id != analytic.AnalyticId)
+            if (id != analytic.Id)
             {
                 return BadRequest();
             }
@@ -93,7 +93,7 @@ namespace API.Controllers
             _context.Analytics.Add(analytic);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAnalytic), new { id = analytic.AnalyticId }, analytic);
+            return CreatedAtAction(nameof(GetAnalytic), new { id = analytic.Id }, analytic);
         }
 
         // DELETE: api/Analytics/5
@@ -118,7 +118,7 @@ namespace API.Controllers
 
         private bool AnalyticExists(int id)
         {
-            return (_context.Analytics?.Any(e => e.AnalyticId == id)).GetValueOrDefault();
+            return (_context.Analytics?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

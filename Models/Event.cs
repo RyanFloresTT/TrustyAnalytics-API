@@ -1,7 +1,9 @@
 ﻿namespace API.Models;
 public class Event
 {
-    public int EventId { get; set; }
-    public string? EventName { get; set; }
-    public int GameId { get; set; }
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    
+    public Game Game { get; set;}
+    public ICollection<Analytic> Analytics {get; set;}
 }
