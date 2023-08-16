@@ -9,10 +9,10 @@ using TrustyAnalytics.Models;
 
 #nullable disable
 
-namespace API.Migrations.Game
+namespace API.Migrations.Event
 {
-    [DbContext(typeof(GameContext))]
-    [Migration("20230816215341_InitialCreate")]
+    [DbContext(typeof(EventContext))]
+    [Migration("20230816221858_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -57,7 +57,7 @@ namespace API.Migrations.Game
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GameId")
+                    b.Property<int?>("GameId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -67,7 +67,7 @@ namespace API.Migrations.Game
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Event");
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.Game", b =>
@@ -83,7 +83,7 @@ namespace API.Migrations.Game
 
                     b.HasKey("Id");
 
-                    b.ToTable("Game", (string)null);
+                    b.ToTable("Game");
                 });
 
             modelBuilder.Entity("API.Models.Analytic", b =>
@@ -97,9 +97,7 @@ namespace API.Migrations.Game
                 {
                     b.HasOne("API.Models.Game", "Game")
                         .WithMany("Events")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
 
                     b.Navigation("Game");
                 });

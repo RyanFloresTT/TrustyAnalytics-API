@@ -54,7 +54,7 @@ namespace API.Migrations.Game
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("GameId")
+                    b.Property<int?>("GameId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -94,9 +94,7 @@ namespace API.Migrations.Game
                 {
                     b.HasOne("API.Models.Game", "Game")
                         .WithMany("Events")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
 
                     b.Navigation("Game");
                 });
