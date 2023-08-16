@@ -10,7 +10,7 @@ using TrustyAnalytics.Models;
 
 namespace API.Migrations
 {
-    [DbContext(typeof(TrustyAnalyticContext))]
+    [DbContext(typeof(AnalyticContext))]
     partial class TrustyAnalyticContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

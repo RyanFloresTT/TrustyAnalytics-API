@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TrustyAnalytics.Models;
 
-public class TrustyAnalyticContext : DbContext
+public class AnalyticContext : DbContext
 {
-    public TrustyAnalyticContext(DbContextOptions<TrustyAnalyticContext> options)
+    public AnalyticContext(DbContextOptions<AnalyticContext> options)
     : base(options)
     {
     }

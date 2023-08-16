@@ -12,55 +12,55 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnalyticsController : ControllerBase
+    public class GamesController : ControllerBase
     {
-        private readonly AnalyticContext _context;
+        private readonly GameContext _context;
 
-        public AnalyticsController(AnalyticContext context)
+        public GamesController(GameContext context)
         {
             _context = context;
         }
 
-        // GET: api/Analytics
+        // GET: api/Games
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Analytic>>> GetAnalytics()
+        public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
-          if (_context.Analytics == null)
+          if (_context.Games == null)
           {
               return NotFound();
           }
-            return await _context.Analytics.ToListAsync();
+            return await _context.Games.ToListAsync();
         }
 
-        // GET: api/Analytics/5
+        // GET: api/Games/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Analytic>> GetAnalytic(int id)
+        public async Task<ActionResult<Game>> GetGame(int id)
         {
-          if (_context.Analytics == null)
+          if (_context.Games == null)
           {
               return NotFound();
           }
-            var analytic = await _context.Analytics.FindAsync(id);
+            var game = await _context.Games.FindAsync(id);
 
-            if (analytic == null)
+            if (game == null)
             {
                 return NotFound();
             }
 
-            return analytic;
+            return game;
         }
 
-        // PUT: api/Analytics/5
+        // PUT: api/Games/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAnalytic(int id, Analytic analytic)
+        public async Task<IActionResult> PutGame(int id, Game game)
         {
-            if (id != analytic.Id)
+            if (id != game.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(analytic).State = EntityState.Modified;
+            _context.Entry(game).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AnalyticExists(id))
+                if (!GameExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/Analytics
+        // POST: api/Games
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Analytic>> PostAnalytic(Analytic analytic)
+        public async Task<ActionResult<Game>> PostGame(Game game)
         {
-          if (_context.Analytics == null)
+          if (_context.Games == null)
           {
-              return Problem("Entity set 'TrustyAnalyticContext.Analytics'  is null.");
+              return Problem("Entity set 'GameContext.Games'  is null.");
           }
-            _context.Analytics.Add(analytic);
+            _context.Games.Add(game);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAnalytic), new { id = analytic.Id }, analytic);
+            return CreatedAtAction("GetGame", new { id = game.Id }, game);
         }
 
-        // DELETE: api/Analytics/5
+        // DELETE: api/Games/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAnalytic(int id)
+        public async Task<IActionResult> DeleteGame(int id)
         {
-            if (_context.Analytics == null)
+            if (_context.Games == null)
             {
                 return NotFound();
             }
-            var analytic = await _context.Analytics.FindAsync(id);
-            if (analytic == null)
+            var game = await _context.Games.FindAsync(id);
+            if (game == null)
             {
                 return NotFound();
             }
 
-            _context.Analytics.Remove(analytic);
+            _context.Games.Remove(game);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AnalyticExists(int id)
+        private bool GameExists(int id)
         {
-            return (_context.Analytics?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Games?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

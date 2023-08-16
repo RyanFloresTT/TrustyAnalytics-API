@@ -11,7 +11,7 @@ using TrustyAnalytics.Models;
 
 namespace API.Migrations
 {
-    [DbContext(typeof(TrustyAnalyticContext))]
+    [DbContext(typeof(AnalyticContext))]
     [Migration("20230816183851_UpdateModels")]
     partial class UpdateModels
     {

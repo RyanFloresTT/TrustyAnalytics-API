@@ -11,7 +11,7 @@ using TrustyAnalytics.Models;
 
 namespace API.Migrations
 {
-    [DbContext(typeof(TrustyAnalyticContext))]
+    [DbContext(typeof(AnalyticContext))]
     [Migration("20230816170438_InitialCreate")]
     partial class InitialCreate
     {

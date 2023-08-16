@@ -4,7 +4,12 @@ using TrustyAnalytics.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<TrustyAnalyticContext>(options =>
+
+builder.Services.AddDbContext<AnalyticContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+builder.Services.AddDbContext<EventContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+builder.Services.AddDbContext<GameContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
 
 builder.Services.AddEndpointsApiExplorer();
@@ -35,14 +40,6 @@ else if (app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<TrustyAnalyticContext>();
-    context.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

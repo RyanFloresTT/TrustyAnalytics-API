@@ -12,55 +12,55 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AnalyticsController : ControllerBase
+    public class EventsController : ControllerBase
     {
-        private readonly AnalyticContext _context;
+        private readonly EventContext _context;
 
-        public AnalyticsController(AnalyticContext context)
+        public EventsController(EventContext context)
         {
             _context = context;
         }
 
-        // GET: api/Analytics
+        // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Analytic>>> GetAnalytics()
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
         {
-          if (_context.Analytics == null)
+          if (_context.Events == null)
           {
               return NotFound();
           }
-            return await _context.Analytics.ToListAsync();
+            return await _context.Events.ToListAsync();
         }
 
-        // GET: api/Analytics/5
+        // GET: api/Events/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Analytic>> GetAnalytic(int id)
+        public async Task<ActionResult<Event>> GetEvent(int id)
         {
-          if (_context.Analytics == null)
+          if (_context.Events == null)
           {
               return NotFound();
           }
-            var analytic = await _context.Analytics.FindAsync(id);
+            var @event = await _context.Events.FindAsync(id);
 
-            if (analytic == null)
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            return analytic;
+            return @event;
         }
 
-        // PUT: api/Analytics/5
+        // PUT: api/Events/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAnalytic(int id, Analytic analytic)
+        public async Task<IActionResult> PutEvent(int id, Event @event)
         {
-            if (id != analytic.Id)
+            if (id != @event.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(analytic).State = EntityState.Modified;
+            _context.Entry(@event).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AnalyticExists(id))
+                if (!EventExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/Analytics
+        // POST: api/Events
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Analytic>> PostAnalytic(Analytic analytic)
+        public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
-          if (_context.Analytics == null)
+          if (_context.Events == null)
           {
-              return Problem("Entity set 'TrustyAnalyticContext.Analytics'  is null.");
+              return Problem("Entity set 'EventContext.Events'  is null.");
           }
-            _context.Analytics.Add(analytic);
+            _context.Events.Add(@event);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAnalytic), new { id = analytic.Id }, analytic);
+            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
         }
 
-        // DELETE: api/Analytics/5
+        // DELETE: api/Events/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAnalytic(int id)
+        public async Task<IActionResult> DeleteEvent(int id)
         {
-            if (_context.Analytics == null)
+            if (_context.Events == null)
             {
                 return NotFound();
             }
-            var analytic = await _context.Analytics.FindAsync(id);
-            if (analytic == null)
+            var @event = await _context.Events.FindAsync(id);
+            if (@event == null)
             {
                 return NotFound();
             }
 
-            _context.Analytics.Remove(analytic);
+            _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AnalyticExists(int id)
+        private bool EventExists(int id)
         {
-            return (_context.Analytics?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Events?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
