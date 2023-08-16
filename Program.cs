@@ -43,7 +43,6 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<TrustyAnalyticContext>();
     context.Database.EnsureCreated();
-    DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
