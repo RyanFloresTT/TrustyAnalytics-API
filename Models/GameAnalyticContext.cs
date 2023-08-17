@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+
 namespace API.Models;
 public class GameAnalyticContext : DbContext
 {
@@ -16,5 +18,9 @@ public class GameAnalyticContext : DbContext
         modelBuilder.Entity<Analytic>().ToTable("Analytic");
         modelBuilder.Entity<Event>().ToTable("Event");
         modelBuilder.Entity<Game>().ToTable("Game");
+
+        modelBuilder.Entity<Event>()
+            .HasOne(p => p.Game)
+            .WithMany(b => b.Events);
     }
 }
