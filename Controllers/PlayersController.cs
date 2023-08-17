@@ -11,55 +11,55 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class PlayersController : ControllerBase
     {
         private readonly GameAnalyticContext _context;
 
-        public EventsController(GameAnalyticContext context)
+        public PlayersController(GameAnalyticContext context)
         {
             _context = context;
         }
 
-        // GET: api/Events
+        // GET: api/Players
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
+        public async Task<ActionResult<IEnumerable<Player>>> GetPlayers()
         {
-          if (_context.Events == null)
+          if (_context.Players == null)
           {
               return NotFound();
           }
-            return await _context.Events.ToListAsync();
+            return await _context.Players.ToListAsync();
         }
 
-        // GET: api/Events/5
+        // GET: api/Players/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(int id)
+        public async Task<ActionResult<Player>> GetPlayer(int id)
         {
-          if (_context.Events == null)
+          if (_context.Players == null)
           {
               return NotFound();
           }
-            var @event = await _context.Events.FindAsync(id);
+            var player = await _context.Players.FindAsync(id);
 
-            if (@event == null)
+            if (player == null)
             {
                 return NotFound();
             }
 
-            return @event;
+            return player;
         }
 
-        // PUT: api/Events/5
+        // PUT: api/Players/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(int id, Event @event)
+        public async Task<IActionResult> PutPlayer(int id, Player player)
         {
-            if (id != @event.Id)
+            if (id != player.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@event).State = EntityState.Modified;
+            _context.Entry(player).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EventExists(id))
+                if (!PlayerExists(id))
                 {
                     return NotFound();
                 }
@@ -80,44 +80,44 @@ namespace API.Controllers
             return NoContent();
         }
 
-        // POST: api/Events
+        // POST: api/Players
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Event>> PostEvent(Event @event)
+        public async Task<ActionResult<Player>> PostPlayer(Player player)
         {
-          if (_context.Events == null)
+          if (_context.Players == null)
           {
-              return Problem("Entity set 'GameAnalyticContext.Events'  is null.");
+              return Problem("Entity set 'GameAnalyticContext.Players'  is null.");
           }
-            _context.Events.Add(@event);
+            _context.Players.Add(player);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
+            return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
         }
 
-        // DELETE: api/Events/5
+        // DELETE: api/Players/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(int id)
+        public async Task<IActionResult> DeletePlayer(int id)
         {
-            if (_context.Events == null)
+            if (_context.Players == null)
             {
                 return NotFound();
             }
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var player = await _context.Players.FindAsync(id);
+            if (player == null)
             {
                 return NotFound();
             }
 
-            _context.Events.Remove(@event);
+            _context.Players.Remove(player);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EventExists(int id)
+        private bool PlayerExists(int id)
         {
-            return (_context.Events?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Players?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

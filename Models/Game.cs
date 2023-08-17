@@ -5,9 +5,9 @@ namespace API.Models;
 
 public class Game
 {
-    [Key]
     public int Id { get; set; }
-    public string? Name { get; set; }
+    public string Name { get; set; }
+    public List<Metric> Metrics { get; set; } = new();
+    public List<MetricValue> MetricValues { get; set; } = new();
 
-    public ICollection<Event>? Events { get; set;}
 }

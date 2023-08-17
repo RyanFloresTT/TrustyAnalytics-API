@@ -4,6 +4,7 @@ using API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(GameAnalyticContext))]
-    partial class GameAnalyticContextModelSnapshot : ModelSnapshot
+    [Migration("20230817042427_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,8 +50,7 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("GameId")
-                        .IsRequired()
+                    b.Property<int>("GameId")
                         .HasColumnType("int");
 
                     b.Property<string>("MetricName")
@@ -70,7 +72,7 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("GameId")
+                    b.Property<int>("GameId")
                         .HasColumnType("int");
 
                     b.Property<int>("MetricId")
@@ -126,12 +128,14 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Models.MetricValue", b =>
                 {
-                    b.HasOne("API.Models.Game", null)
+                    b.HasOne("API.Models.Game", "Game")
                         .WithMany("MetricValues")
-                        .HasForeignKey("GameId");
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("API.Models.Metric", "Metric")
-                        .WithMany()
+                        .WithMany("MetricValues")
                         .HasForeignKey("MetricId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -141,6 +145,8 @@ namespace API.Migrations
                         .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Game");
 
                     b.Navigation("Metric");
 
@@ -152,6 +158,11 @@ namespace API.Migrations
                     b.Navigation("MetricValues");
 
                     b.Navigation("Metrics");
+                });
+
+            modelBuilder.Entity("API.Models.Metric", b =>
+                {
+                    b.Navigation("MetricValues");
                 });
 
             modelBuilder.Entity("API.Models.Player", b =>
