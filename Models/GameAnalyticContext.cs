@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace API.Models;
 public class GameAnalyticContext : DbContext
@@ -26,5 +25,17 @@ public class GameAnalyticContext : DbContext
         .WithMany(g => g.Metrics)
         .HasForeignKey(m => m.GameId)
         .IsRequired();
+
+        modelBuilder.Entity<MetricValue>()
+            .HasOne(mv => mv.Metric)
+            .WithMany(m => m.MetricValues)
+            .HasForeignKey(mv => mv.MetricId)
+            .IsRequired();
+
+        modelBuilder.Entity<MetricValue>()
+            .HasOne(mv => mv.Player)
+            .WithMany(p => p.MetricValues)
+            .HasForeignKey(mv => mv.PlayerId)
+            .IsRequired();
     }
 }

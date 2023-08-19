@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 
@@ -83,12 +78,26 @@ namespace API.Controllers
         // POST: api/MetricValues
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MetricValue>> PostMetricValue(MetricValue metricValue)
+        public async Task<ActionResult<MetricValue>> PostMetricValue(CreateMetricValueDTO metricValueDto)
         {
-          if (_context.MetricValues == null)
-          {
-              return Problem("Entity set 'GameAnalyticContext.MetricValues'  is null.");
-          }
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                return BadRequest(new { Errors = errors });
+            }
+
+            var metricValue = new MetricValue
+            {
+                MetricId = metricValueDto.MetricId,
+                PlayerId = metricValueDto.PlayerId,
+                Value = metricValueDto.Value,
+                Timestamp = metricValueDto.Timestamp
+            };
+
             _context.MetricValues.Add(metricValue);
             await _context.SaveChangesAsync();
 

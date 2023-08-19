@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 
@@ -24,30 +19,30 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGames()
         {
-          if (_context.Games == null)
-          {
-              return NotFound();
-          }
-            return await _context.Games.ToListAsync();
+            var gamesWithMetrics = await _context.Games
+                .Include(g => g.Metrics)
+                .ToListAsync();
+
+            return gamesWithMetrics;
         }
+
 
         // GET: api/Games/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
-          if (_context.Games == null)
-          {
-              return NotFound();
-          }
-            var game = await _context.Games.FindAsync(id);
+            var gameWithMetrics = await _context.Games
+                .Include(g => g.Metrics)
+                .FirstOrDefaultAsync(g => g.Id == id);
 
-            if (game == null)
+            if (gameWithMetrics == null)
             {
                 return NotFound();
             }
 
-            return game;
+            return gameWithMetrics;
         }
+
 
         // PUT: api/Games/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

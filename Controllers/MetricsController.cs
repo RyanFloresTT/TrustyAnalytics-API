@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 
@@ -24,22 +19,30 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Metric>>> GetMetrics()
         {
-          if (_context.Metrics == null)
-          {
-              return NotFound();
-          }
-            return await _context.Metrics.ToListAsync();
+            if (_context.Metrics == null)
+            {
+                return NotFound();
+            }
+
+            var metricsWithValues = await _context.Metrics
+                .Include(m => m.MetricValues)
+                .ToListAsync();
+
+            return metricsWithValues;
         }
 
         // GET: api/Metrics/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Metric>> GetMetric(int id)
         {
-          if (_context.Metrics == null)
-          {
-              return NotFound();
-          }
-            var metric = await _context.Metrics.FindAsync(id);
+            if (_context.Metrics == null)
+            {
+                return NotFound();
+            }
+
+            var metric = await _context.Metrics
+                .Include(m => m.MetricValues)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (metric == null)
             {
@@ -83,7 +86,7 @@ namespace API.Controllers
         // POST: api/Metrics
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Metric>> PostMetric(Metric metric)
+        public async Task<ActionResult<Metric>> PostMetric([FromBody] MetricCreateDTO metricDto)
         {
             if (!ModelState.IsValid)
             {
@@ -94,15 +97,19 @@ namespace API.Controllers
 
                 return BadRequest(new { Errors = errors });
             }
-            if (_context.Metrics == null)
+
+            var metric = new Metric
             {
-              return Problem("Entity set 'GameAnalyticContext.Metrics'  is null.");
-            }
+                MetricName = metricDto.MetricName,
+                GameId = metricDto.GameId
+            };
+
             _context.Metrics.Add(metric);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMetric", new { id = metric.Id }, metric);
         }
+
 
         // DELETE: api/Metrics/5
         [HttpDelete("{id}")]
